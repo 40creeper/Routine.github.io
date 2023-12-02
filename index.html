@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exam Routine</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 20px;
+    }
+    h2 {
+      color: #333;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #3498db;
+      color: #fff;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Exam Routine</h2>
+
+  <table id="examTable">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Subject Code</th>
+        <th>Subject Name</th>
+        <th>Days Left</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Date 1</td>
+        <td>UCSE306</td>
+        <td>Data Structure using C (ECE)</td>
+        <td id="daysLeft1"></td>
+      </tr>
+      <tr>
+        <td>Date 5</td>
+        <td>UECE301</td>
+        <td>Electronic Devices (ECE)</td>
+        <td id="daysLeft2"></td>
+      </tr>
+      <tr>
+        <td>Date 7</td>
+        <td>UECE306</td>
+        <td>Digital Electronics & Logic Design</td>
+        <td id="daysLeft3"></td>
+      </tr>
+      <tr>
+        <td>Date 11</td>
+        <td>UECE303</td>
+        <td>Signals and Systems (ECE)</td>
+        <td id="daysLeft4"></td>
+      </tr>
+      <tr>
+        <td>Date 13</td>
+        <td>UECE304</td>
+        <td>Network Theory (ECE)</td>
+        <td id="daysLeft5"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    // Function to calculate days left between two dates
+    function calculateDaysLeft(targetDate) {
+      const currentDate = new Date();
+      const examDate = new Date(targetDate);
+      const timeDiff = examDate.getTime() - currentDate.getTime();
+      const daysLeft = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+      return daysLeft;
+    }
+
+    // Function to fetch current date from WorldTimeAPI
+    async function fetchCurrentDate() {
+      try {
+        const response = await fetch('http://worldtimeapi.org/api/ip');
+        const data = await response.json();
+        // Extracting the date part only
+        const currentDate = new Date(data.utc_datetime.split('T')[0]);
+        return currentDate;
+      } catch (error) {
+        console.error('Error fetching current date:', error);
+        return new Date(); // Return the current date if there's an error
+      }
+    }
+
+    // Set days left for each exam
+    async function setDaysLeft() {
+      const currentDate = await fetchCurrentDate();
+
+      const daysLeft1 = calculateDaysLeft('2023-12-01');
+      document.getElementById('daysLeft1').textContent = daysLeft1 + ' days';
+
+      const daysLeft2 = calculateDaysLeft('2023-12-05');
+      document.getElementById('daysLeft2').textContent = daysLeft2 + ' days';
+
+      const daysLeft3 = calculateDaysLeft('2023-12-07');
+      document.getElementById('daysLeft3').textContent = daysLeft3 + ' days';
+
+      const daysLeft4 = calculateDaysLeft('2023-12-11');
+      document.getElementById('daysLeft4').textContent = daysLeft4 + ' days';
+
+      const daysLeft5 = calculateDaysLeft('2023-12-13');
+      document.getElementById('daysLeft5').textContent = daysLeft5 + ' days';
+    }
+
+    // Call the setDaysLeft function
+    setDaysLeft();
+  </script>
+
+</body>
+</html>
